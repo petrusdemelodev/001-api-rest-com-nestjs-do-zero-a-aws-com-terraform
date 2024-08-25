@@ -7,6 +7,14 @@ import { AuthService } from './service/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './shared/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+
+const { LOCAL_DEVELOPMENT = false, AWS_REGION = 'us-east-1' } = process.env;
+
+const client = new DynamoDBClient({
+  region: LOCAL_DEVELOPMENT ? undefined : AWS_REGION,
+  endpoint: LOCAL_DEVELOPMENT ? 'http://localhost:8000' : undefined,
+});
 
 @Module({
   imports: [
@@ -22,6 +30,10 @@ import { APP_GUARD } from '@nestjs/core';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: DynamoDBClient,
+      useValue: client,
     },
   ],
 })

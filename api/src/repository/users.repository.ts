@@ -8,16 +8,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@root/domain/user.domain';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 
-const {
-  LOCAL_DEVELOPMENT = false,
-  AWS_REGION = 'us-east-1',
-  ENVIRONMENT = 'dev',
-} = process.env;
-
-const client = new DynamoDBClient({
-  region: LOCAL_DEVELOPMENT ? undefined : AWS_REGION,
-  endpoint: LOCAL_DEVELOPMENT ? 'http://localhost:8000' : undefined,
-});
+const { ENVIRONMENT = 'dev' } = process.env;
 
 interface UserRecord {
   id: string;
@@ -30,6 +21,8 @@ interface UserRecord {
 
 @Injectable()
 export class UsersRepository {
+  constructor(private readonly client: DynamoDBClient) {}
+
   public async createUser(user: User): Promise<void> {
     const command = new PutItemCommand({
       TableName: `${ENVIRONMENT}-users`,
@@ -44,7 +37,7 @@ export class UsersRepository {
       ConditionExpression: 'attribute_not_exists(id)',
     });
 
-    await client.send(command);
+    await this.client.send(command);
   }
 
   public async getUserByEmail(email: string): Promise<User | undefined> {
@@ -55,7 +48,7 @@ export class UsersRepository {
       ExpressionAttributeValues: marshall({ ':email': email }),
     });
 
-    const response = await client.send(command);
+    const response = await this.client.send(command);
 
     if (response.Items?.length === 0) {
       return undefined;
@@ -71,7 +64,7 @@ export class UsersRepository {
       Key: marshall({ id: userID }),
     });
 
-    const response = await client.send(command);
+    const response = await this.client.send(command);
 
     if (!response.Item) {
       return undefined;

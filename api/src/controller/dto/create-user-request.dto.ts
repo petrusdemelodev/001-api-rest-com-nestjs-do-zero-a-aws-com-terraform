@@ -23,4 +23,8 @@ export class CreateUserRequestDTO {
   })
   @IsNotEmpty()
   public password: string;
+
+  constructor(partial: Partial<CreateUserRequestDTO>) {
+    Object.assign(this, partial);
+  }
 }

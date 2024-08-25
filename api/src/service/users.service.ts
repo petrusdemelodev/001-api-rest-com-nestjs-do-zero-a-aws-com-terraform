@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from '@root/domain/user.domain';
 import { UsersRepository } from '@root/repository/users.repository';
 import { hash } from 'bcrypt';
@@ -48,7 +52,7 @@ export class UsersService {
     const user: User = await this.usersRepository.getUserByID(userID);
 
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new NotFoundException('User not found');
     }
 
     return {
