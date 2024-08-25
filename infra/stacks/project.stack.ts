@@ -6,6 +6,8 @@ import { IamInstanceProfile } from '@cdktf/provider-aws/lib/iam-instance-profile
 import { IamPolicy } from '@cdktf/provider-aws/lib/iam-policy';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicyAttachment } from '@cdktf/provider-aws/lib/iam-role-policy-attachment';
+import { IamUser } from '@cdktf/provider-aws/lib/iam-user';
+import { IamUserPolicyAttachment } from '@cdktf/provider-aws/lib/iam-user-policy-attachment';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { TerraformOutput, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
@@ -184,5 +186,45 @@ export class ProjectStack extends TerraformStack {
     new TerraformOutput(this, 'environment_url', {
       value: environment.endpointUrl,
     });
+
+    /**
+     * Github Actions User and Permissions
+     */
+
+    const githubActionsUser = new IamUser(this, 'github_actions_user', {
+      name: `${environmentName}-github-actions`,
+    });
+
+    const githubActionsPolicyDocument = new DataAwsIamPolicyDocument(
+      this,
+      'github_actions_policy_document',
+      {
+        statement: [
+          {
+            effect: 'Allow',
+            actions: ['*'],
+            resources: ['*'],
+          },
+        ],
+      },
+    );
+
+    const iamPolicyGithubActions = new IamPolicy(
+      this,
+      'iam_policy_github_actions',
+      {
+        name: `${environmentName}_github_actions_policy`,
+        policy: githubActionsPolicyDocument.json,
+      },
+    );
+
+    new IamUserPolicyAttachment(
+      this,
+      'iam_role_policy_attachment_github_actions',
+      {
+        policyArn: iamPolicyGithubActions.arn,
+        user: githubActionsUser.name,
+      },
+    );
   }
 }
