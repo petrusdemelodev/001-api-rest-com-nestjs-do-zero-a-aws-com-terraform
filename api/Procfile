@@ -1,0 +1,1 @@
+web: npm ci --production && npm run start:prod
