@@ -9,7 +9,8 @@ Neste vídeo, vou te ensinar a desenvolver uma API REST com autenticação, util
 ## Descrição
 
 Este é o repositório do vídeo **API REST com NestJS do Zero à AWS com Terraform e GitHub Actions**.  
-[Assista ao vídeo](https://youtu.be/csWHIujcbKI)
+
+✅ [ASSISTA O VÍDEO](https://youtu.be/csWHIujcbKI) 🚀🚀🚀🚀
 
 Se gostou, não se esqueça de **se inscrever no canal, deixar like e compartilhar com outros devs**.
 
@@ -43,7 +44,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 ```
 
 - **AWS CLI**
-(Documentação de Instalação)[https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html]
+[Documentação de Instalação](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 - **DynamoDB Local**
 ```bash
@@ -56,7 +57,7 @@ npm install -g dynamodb-admin
 ```
 
 - **Terraform**
-(Documentação de Instalação)[https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli]
+[Documentação de Instalação](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
 - **CDKTF**
 ```bash
@@ -96,6 +97,13 @@ cdktf apply dev-project-stack
 ```
 
 # Dúvidas
+
 Deixe seu comentário no vídeo! 😊
 
 Se este repositório foi útil para você, por favor, deixe uma estrela ⭐ nele no GitHub. Isso ajuda a divulgar o projeto e motiva a criação de mais conteúdos como este.
+
+# Redes Sociais
+
+Me segue nas redes sociais
+
+[INSTAGRAM](https://instagram.com/petrusdemelodev) | [LINKEDIN](https://linkedin.com/in/petrusdemelo) | [TWITTER](https://x.com/petrusdemelodev) | [MEDIUM](https://medium.com/@petrusdemelodev)
